@@ -47,7 +47,7 @@ class Router extends RouterBase {
     },
     DashboardView: (data) {
       return MaterialPageRoute<dynamic>(
-        builder: (context) => DashboardView(),
+        builder: (context) => const DashboardView(),
         settings: data,
       );
     },
@@ -59,7 +59,7 @@ class Router extends RouterBase {
     },
     SearchView: (data) {
       return MaterialPageRoute<dynamic>(
-        builder: (context) => SearchView(),
+        builder: (context) => const SearchView(),
         settings: data,
       );
     },
