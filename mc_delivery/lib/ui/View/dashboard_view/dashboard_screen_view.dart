@@ -86,7 +86,8 @@ class DashboardView extends StatelessWidget {
                 DashboardWidgetList(),
                 Visibility(
                     visible: model.openDrawer, child: DrawerBottomSheet()),
-                BottomNavigation()
+                BottomNavigation(),
+                // Visibility(visible: true, child: DeliveryTypeBottomSheet()),
               ],
             ),
           )),
@@ -1105,6 +1106,257 @@ class DrawerBottomSheet extends ViewModelWidget<DashboardViewModel> {
                 ],
               ),
             ),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class DeliveryTypeBottomSheet extends ViewModelWidget<DashboardViewModel> {
+  @override
+  Widget build(BuildContext context, DashboardViewModel viewModel) {
+    return Positioned(
+      top: 0.0,
+      bottom: 0.0,
+      right: 0.0,
+      left: 0.0,
+      child: Stack(
+        children: [
+          GestureDetector(
+            onTap: () => viewModel.closeBottomSheet(),
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              color: Colors.black26,
+            ),
+          ),
+          Positioned(
+            top: MediaQuery.of(context).size.height / 6,
+            bottom: 0.0,
+            right: 0.0,
+            left: 0.0,
+            child: Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                padding: EdgeInsets.only(left: 20, right: 20, top: 20),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10.0)),
+                child: ListView.builder(
+                  itemCount: 4,
+                  // ignore: missing_return
+                  itemBuilder: (ctx, index) {
+                    if (index == 0) {
+                      return Container(
+                        padding: EdgeInsets.all(15),
+                        margin: EdgeInsets.only(bottom: 10, top: 10),
+                        decoration: BoxDecoration(
+                            border:
+                                Border.all(color: Colors.grey[400], width: 0.8),
+                            borderRadius: BorderRadius.circular(4)),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Container(
+                                  width: 130,
+                                  height: 130,
+                                  color: Colors.blue[50],
+                                ),
+                                SizedBox(
+                                  width: 15,
+                                ),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Delivery",
+                                        style: TextStyle(
+                                            fontSize: 22,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black),
+                                      ),
+                                      Text(
+                                        "Enjoy safe and contactless delivery to your doorstep with exciting offers!",
+                                        // maxLines: 4,
+                                        style: TextStyle(
+                                            fontSize: 19,
+                                            letterSpacing: 0.4,
+                                            fontWeight: FontWeight.normal,
+                                            color: Colors.black87),
+                                      )
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              "Get a FREE Mcaloo Tikki Burger or Chicken kebab Burger on order above Rs.299 .Use code -B299",
+                              // maxLines: 4,
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.normal,
+                                  color: Colors.black),
+                            )
+                          ],
+                        ),
+                      );
+                    } else if (index == 1) {
+                      return Container(
+                        padding: EdgeInsets.all(15),
+                        margin: EdgeInsets.only(bottom: 10, top: 10),
+                        decoration: BoxDecoration(
+                            border:
+                                Border.all(color: Colors.grey[400], width: 0.8),
+                            borderRadius: BorderRadius.circular(4)),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Container(
+                                  width: 130,
+                                  height: 130,
+                                  color: Colors.blue[50],
+                                ),
+                                SizedBox(
+                                  width: 15,
+                                ),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "On The Go",
+                                        style: TextStyle(
+                                            fontSize: 22,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black),
+                                      ),
+                                      Text(
+                                        "Delivered to your car at a pick-up point on your way", // maxLines: 4,
+                                        style: TextStyle(
+                                            fontSize: 19,
+                                            letterSpacing: 0.4,
+                                            fontWeight: FontWeight.normal,
+                                            color: Colors.black87),
+                                      )
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              "Get a FREE Mcaloo Tikki Burger or Chicken kebab Burger on order above Rs.599 .Use code -OTG17",
+                              // maxLines: 4,
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.normal,
+                                  color: Colors.black),
+                            )
+                          ],
+                        ),
+                      );
+                    } else if (index == 2) {
+                      return Container(
+                        padding: EdgeInsets.all(15),
+                        margin: EdgeInsets.only(bottom: 10, top: 10),
+                        decoration: BoxDecoration(
+                            border:
+                                Border.all(color: Colors.grey[400], width: 0.8),
+                            borderRadius: BorderRadius.circular(4)),
+                        child: Row(
+                          children: [
+                            Container(
+                              width: 130,
+                              height: 130,
+                              color: Colors.blue[50],
+                            ),
+                            SizedBox(
+                              width: 15,
+                            ),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Takeout",
+                                    style: TextStyle(
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black),
+                                  ),
+                                  Text(
+                                    "Order and pick-up from one of our restaurants",
+                                    // maxLines: 4,
+                                    style: TextStyle(
+                                        fontSize: 19,
+                                        letterSpacing: 0.4,
+                                        fontWeight: FontWeight.normal,
+                                        color: Colors.black87),
+                                  )
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      );
+                    } else if (index == 3) {
+                      return Container(
+                        padding: EdgeInsets.all(15),
+                        margin: EdgeInsets.only(bottom: 20, top: 10),
+                        decoration: BoxDecoration(
+                            border:
+                                Border.all(color: Colors.grey[400], width: 0.8),
+                            borderRadius: BorderRadius.circular(4)),
+                        child: Row(
+                          children: [
+                            Container(
+                              width: 130,
+                              height: 130,
+                              color: Colors.blue[50],
+                            ),
+                            SizedBox(
+                              width: 15,
+                            ),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Dine In",
+                                    style: TextStyle(
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black),
+                                  ),
+                                  Text(
+                                    "Order online and dine in the restaurant",
+                                    // maxLines: 4,
+                                    style: TextStyle(
+                                        fontSize: 19,
+                                        letterSpacing: 0.4,
+                                        fontWeight: FontWeight.normal,
+                                        color: Colors.black87),
+                                  )
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      );
+                    }
+                  },
+                )),
           )
         ],
       ),
