@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:mc_delivery/constants/colors/colors.dart';
 import 'package:mc_delivery/ui/View/menu/menu_view_model.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:stacked/stacked.dart';
 
 class MenuView extends StatelessWidget {

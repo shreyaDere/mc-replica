@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:mc_delivery/app/locator/locator.dart';
 import 'package:mc_delivery/app/router/router.gr.dart';
 import 'package:mc_delivery/logger/logger.dart';
