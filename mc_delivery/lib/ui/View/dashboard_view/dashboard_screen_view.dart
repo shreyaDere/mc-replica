@@ -214,29 +214,33 @@ class BottomNavigation extends ViewModelWidget<DashboardViewModel> {
 class DrawerItem extends ViewModelWidget<DashboardViewModel> {
   final String icon;
   final String label;
-  DrawerItem(this.icon, this.label);
+  final int index;
+  DrawerItem(this.icon, this.label, this.index);
   @override
   Widget build(BuildContext context, DashboardViewModel viewModel) {
-    return Row(
-      children: [
-        SizedBox(
-          width: 20,
-        ),
-        Image.asset(
-          icon,
-          color: COLOR_PRIMARY,
-          height: 20,
-          width: 20,
-        ),
-        SizedBox(
-          width: 10,
-        ),
-        Text(
-          label,
-          style: TextStyle(
-              fontSize: 18, letterSpacing: 1, fontWeight: FontWeight.normal),
-        ),
-      ],
+    return GestureDetector(
+      onTap: () => viewModel.appDrawerNavigation(index),
+      child: Row(
+        children: [
+          SizedBox(
+            width: 20,
+          ),
+          Image.asset(
+            icon,
+            color: COLOR_PRIMARY,
+            height: 20,
+            width: 20,
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          Text(
+            label,
+            style: TextStyle(
+                fontSize: 18, letterSpacing: 1, fontWeight: FontWeight.normal),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -346,6 +350,7 @@ class RecommendedProductList extends ViewModelWidget<DashboardViewModel> {
                     toggleSize: 15.0,
                     borderRadius: 30.0,
                     padding: 3.5,
+                    activeColor: COLOR_PRIMARY,
                     inactiveColor: Colors.grey[350],
                     value: viewModel.calorieToggle,
                     onToggle: (val) => viewModel.onCalorieToggel(val),
@@ -363,6 +368,7 @@ class RecommendedProductList extends ViewModelWidget<DashboardViewModel> {
                     toggleSize: 15.0,
                     borderRadius: 30.0,
                     padding: 3.5,
+                    activeColor: COLOR_PRIMARY,
                     inactiveColor: Colors.grey[350],
                     value: viewModel.vegOnlyToggle,
                     onToggle: (val) => viewModel.onVegOnlyToggleToggel(val),
@@ -1078,31 +1084,33 @@ class DrawerBottomSheet extends ViewModelWidget<DashboardViewModel> {
                   SizedBox(
                     height: 30,
                   ),
-                  DrawerItem("assets/icons/shopping.png", "My Orders"),
+                  DrawerItem("assets/icons/shopping.png", "My Orders", 0),
                   SizedBox(
                     height: 30,
                   ),
-                  DrawerItem("assets/icons/chat.png", "Track Order"),
+                  DrawerItem("assets/icons/chat.png", "Track Order", 1),
                   SizedBox(
                     height: 30,
                   ),
-                  DrawerItem("assets/icons/file.png", "Payment History"),
+                  DrawerItem("assets/icons/file.png", "Payment History", 2),
                   SizedBox(
                     height: 30,
                   ),
-                  DrawerItem("assets/icons/discount.png", "Offers"),
+                  DrawerItem("assets/icons/discount.png", "Offers", 3),
                   SizedBox(
                     height: 30,
                   ),
-                  DrawerItem("assets/icons/invitation.png", "Get free burgers"),
+                  DrawerItem(
+                      "assets/icons/invitation.png", "Get free burgers", 4),
                   SizedBox(
                     height: 30,
                   ),
-                  DrawerItem("assets/icons/placeholder.png", "Store locator"),
+                  DrawerItem(
+                      "assets/icons/placeholder.png", "Store locator", 5),
                   SizedBox(
                     height: 30,
                   ),
-                  DrawerItem("assets/icons/settings.png", "Settings"),
+                  DrawerItem("assets/icons/settings.png", "Settings", 6),
                 ],
               ),
             ),

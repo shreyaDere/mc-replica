@@ -87,19 +87,25 @@ class DashboardViewModel extends BaseViewModel {
 
   loadData() async {}
 
-  bottomNavigation(int index) {
+  appDrawerNavigation(int index) {
     switch (index) {
       case 0:
         break;
       case 1:
-        _navigationService.navigateTo(Routes.SearchViewRoute);
+        // _navigationService.navigateTo(Routes.SearchViewRoute);
         break;
       case 2:
         break;
       case 3:
         break;
       case 4:
-        // _navigationService.navigateTo(Routes.MyMcdViewRoute);
+        _navigationService.navigateTo(Routes.InviteAndShareViewRoute);
+        break;
+      case 5:
+        // _navigationService.navigateTo(Routes.InviteAndShareViewRoute);
+        break;
+      case 6:
+        _navigationService.navigateTo(Routes.SettingsViewRoute);
         break;
       default:
     }
