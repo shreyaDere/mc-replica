@@ -1,10 +1,8 @@
 // import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:mc_delivery/constants/colors/colors.dart';
 import 'package:mc_delivery/ui/View/dashboard_view/dashboard_screen_view_model.dart';
-import 'package:mc_delivery/ui/View/search_view/search_screen_view.dart';
 import 'package:stacked/stacked.dart';
 
 class DashboardView extends StatelessWidget {
@@ -146,38 +144,44 @@ class BottomNavigation extends ViewModelWidget<DashboardViewModel> {
               ),
             )),
             Expanded(
-                child: Column(
-              children: [
-                Image.asset(
-                  "assets/icons/list.png",
-                  height: 20,
-                  width: 20,
-                ),
-                SizedBox(
-                  height: 8,
-                ),
-                Text(
-                  "Menu",
-                  style: TextStyle(color: Colors.black),
-                ),
-              ],
+                child: GestureDetector(
+              onTap: () => viewModel.onMenuPressed(),
+              child: Column(
+                children: [
+                  Image.asset(
+                    "assets/icons/list.png",
+                    height: 20,
+                    width: 20,
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Text(
+                    "Menu",
+                    style: TextStyle(color: Colors.black),
+                  ),
+                ],
+              ),
             )),
             Expanded(
-                child: Column(
-              children: [
-                Image.asset(
-                  "assets/icons/discount.png",
-                  height: 20,
-                  width: 20,
-                ),
-                SizedBox(
-                  height: 8,
-                ),
-                Text(
-                  "Offers",
-                  style: TextStyle(color: Colors.black),
-                ),
-              ],
+                child: GestureDetector(
+              onTap: () => viewModel.onOfferPressed(),
+              child: Column(
+                children: [
+                  Image.asset(
+                    "assets/icons/discount.png",
+                    height: 20,
+                    width: 20,
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Text(
+                    "Offers",
+                    style: TextStyle(color: Colors.black),
+                  ),
+                ],
+              ),
             )),
             Expanded(
                 child: GestureDetector(
@@ -369,106 +373,208 @@ class RecommendedProductList extends ViewModelWidget<DashboardViewModel> {
           ),
           Container(
             width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height - 150,
             child: ListView.builder(
                 itemCount: 10,
                 shrinkWrap: true,
-                physics: ClampingScrollPhysics(),
+                physics: NeverScrollableScrollPhysics(),
                 itemBuilder: (ctx, index) {
-                  return Container(
-                    height: 150,
-                    width: MediaQuery.of(context).size.width,
-                    margin: EdgeInsets.only(bottom: 8, top: 8),
-                    // color: Colors.black,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          children: [
-                            Container(
-                              height: 100,
-                              width: 100,
-                              color: Colors.blue[50],
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Visibility(
-                              visible: viewModel.calorieToggle,
-                              child: RichText(
-                                text: TextSpan(
-                                  children: [
-                                    WidgetSpan(
-                                        child: Padding(
-                                      padding:
-                                          const EdgeInsets.only(right: 8.0),
-                                      child: Image.asset(
-                                        "assets/icons/fire.png",
-                                        height: 18,
-                                        width: 18,
-                                        color: COLOR_PRIMARY,
+                  return GestureDetector(
+                      onTap: () => viewModel.onRecommendedProductItemClick(),
+                      child: viewModel.selected.contains(index)
+                          ? Container(
+                              height: 320,
+                              width: MediaQuery.of(context).size.width,
+                              margin: EdgeInsets.only(bottom: 8, top: 8),
+                              // color: Colors.black,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    height: 150,
+                                    width: MediaQuery.of(context).size.width,
+                                    color: Colors.blue[50],
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Visibility(
+                                    visible: viewModel.calorieToggle,
+                                    child: RichText(
+                                      text: TextSpan(
+                                        children: [
+                                          WidgetSpan(
+                                              child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 8.0),
+                                            child: Image.asset(
+                                              "assets/icons/fire.png",
+                                              height: 18,
+                                              width: 18,
+                                              color: COLOR_PRIMARY,
+                                            ),
+                                          )),
+                                          TextSpan(
+                                              text: '460 Cal',
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 16,
+                                                  fontWeight:
+                                                      FontWeight.normal)),
+                                        ],
                                       ),
-                                    )),
-                                    TextSpan(
-                                        text: '460 Cal',
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.normal)),
-                                  ],
-                                ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text(
+                                    "McAloo Tikki Double Patty Burger",
+                                    style: TextStyle(fontSize: 18),
+                                  ),
+                                  SizedBox(
+                                    height: 8,
+                                  ),
+                                  Text(
+                                    "The World's favourite Indian \n burger! Two Crunchy potato ",
+                                    style: TextStyle(
+                                        fontSize: 14, color: Colors.grey),
+                                  ),
+                                  Row(
+                                    children: [
+                                      SizedBox(
+                                        width: 30,
+                                      ),
+                                      Icon(
+                                        Icons.monetization_on,
+                                        size: 20,
+                                      ),
+                                      Text("75"),
+                                      Spacer(),
+                                      Column(
+                                        children: [
+                                          Container(
+                                            width: 100,
+                                            height: 40,
+                                            margin: EdgeInsets.only(
+                                                top: 10, bottom: 2),
+                                            decoration: BoxDecoration(
+                                                color: COLOR_PRIMARY,
+                                                borderRadius:
+                                                    BorderRadius.circular(8.0)),
+                                            child: Center(child: Text("Add")),
+                                          ),
+                                          Text(
+                                            "customizable",
+                                            style: TextStyle(
+                                                color: Colors.grey,
+                                                fontSize: 14),
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ],
                               ),
-                            ),
-                          ],
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text(
-                              "McAloo Tikki Double Patty Burger",
-                              style: TextStyle(fontSize: 16),
-                            ),
-                            SizedBox(
-                              height: 8,
-                            ),
-                            Text(
-                              "The World's favourite Indian \n burger! Two Crunchy potato ",
-                              style: TextStyle(fontSize: 14),
-                            ),
-                            Row(
-                              children: [
-                                SizedBox(
-                                  width: 80,
-                                ),
-                                Icon(
-                                  Icons.monetization_on,
-                                  size: 20,
-                                ),
-                                Text("75"),
-                                SizedBox(
-                                  width: 20,
-                                ),
-                                Container(
-                                  width: 100,
-                                  height: 40,
-                                  margin: EdgeInsets.only(top: 10, bottom: 2),
-                                  decoration: BoxDecoration(
-                                      color: COLOR_PRIMARY,
-                                      borderRadius: BorderRadius.circular(8.0)),
-                                  child: Center(child: Text("Add")),
-                                )
-                              ],
-                            ),
-                            Text(
-                              "customizable",
-                              style:
-                                  TextStyle(color: Colors.grey, fontSize: 14),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  );
+                            )
+                          : Container(
+                              height: 150,
+                              width: MediaQuery.of(context).size.width,
+                              margin: EdgeInsets.only(bottom: 8, top: 8),
+                              // color: Colors.black,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    children: [
+                                      Container(
+                                        height: 100,
+                                        width: 100,
+                                        color: Colors.blue[50],
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Visibility(
+                                        visible: viewModel.calorieToggle,
+                                        child: RichText(
+                                          text: TextSpan(
+                                            children: [
+                                              WidgetSpan(
+                                                  child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    right: 8.0),
+                                                child: Image.asset(
+                                                  "assets/icons/fire.png",
+                                                  height: 18,
+                                                  width: 18,
+                                                  color: COLOR_PRIMARY,
+                                                ),
+                                              )),
+                                              TextSpan(
+                                                  text: '460 Cal',
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.normal)),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        "McAloo Tikki Double Patty Burger",
+                                        style: TextStyle(fontSize: 16),
+                                      ),
+                                      SizedBox(
+                                        height: 8,
+                                      ),
+                                      Text(
+                                        "The World's favourite Indian \n burger! Two Crunchy potato ",
+                                        style: TextStyle(fontSize: 14),
+                                      ),
+                                      Row(
+                                        children: [
+                                          SizedBox(
+                                            width: 80,
+                                          ),
+                                          Icon(
+                                            Icons.monetization_on,
+                                            size: 20,
+                                          ),
+                                          Text("75"),
+                                          SizedBox(
+                                            width: 20,
+                                          ),
+                                          Container(
+                                            width: 100,
+                                            height: 40,
+                                            margin: EdgeInsets.only(
+                                                top: 10, bottom: 2),
+                                            decoration: BoxDecoration(
+                                                color: COLOR_PRIMARY,
+                                                borderRadius:
+                                                    BorderRadius.circular(8.0)),
+                                            child: Center(child: Text("Add")),
+                                          )
+                                        ],
+                                      ),
+                                      Text(
+                                        "customizable",
+                                        style: TextStyle(
+                                            color: Colors.grey, fontSize: 14),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ));
                 }),
           ),
           SizedBox(

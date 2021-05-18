@@ -19,6 +19,7 @@ class DashboardViewModel extends BaseViewModel {
   bool get vegOnlyToggle => _vegOnlyToggle;
   bool _openDrawer = false;
   bool get openDrawer => _openDrawer;
+  List<int> selected = [];
 
   getDateInterval() {
     var format = DateFormat("HH:mm");
@@ -74,6 +75,17 @@ class DashboardViewModel extends BaseViewModel {
     }
   }
 
+  onRecommendedProductItemClick() {
+    for (var i = 0; i < 10; i++) {
+      var isSelected = selected.contains(i);
+      if (isSelected)
+        selected.remove(i);
+      else
+        selected.add(i);
+    }
+    notifyListeners();
+  }
+
   loadData() async {}
 
   bottomNavigation(int index) {
@@ -123,5 +135,13 @@ class DashboardViewModel extends BaseViewModel {
 
   navigateToSearch() {
     _navigationService.navigateTo(Routes.SearchViewRoute);
+  }
+
+  onMenuPressed() {
+    _navigationService.navigateTo(Routes.MenuViewRoute);
+  }
+
+  onOfferPressed() {
+    _navigationService.navigateTo(Routes.OffersViewRoute);
   }
 }

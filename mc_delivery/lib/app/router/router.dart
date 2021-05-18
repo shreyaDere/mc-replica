@@ -17,7 +17,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_route/auto_route_annotations.dart';
 import 'package:mc_delivery/ui/View/dashboard_view/dashboard_screen_view.dart';
+import 'package:mc_delivery/ui/View/menu/menu_view.dart';
 import 'package:mc_delivery/ui/View/my_mcd_view/my_mcd_view.dart';
+import 'package:mc_delivery/ui/View/offers/offer_view.dart';
 import 'package:mc_delivery/ui/View/search_view/search_screen_view.dart';
 import 'package:mc_delivery/ui/View/splash_screen/splash_screen_view.dart';
 
@@ -41,6 +43,8 @@ import 'package:mc_delivery/ui/View/splash_screen/splash_screen_view.dart';
       page: SearchView,
       name: 'SearchViewRoute',
     ),
+    MaterialRoute(page: MenuView, name: 'MenuViewRoute'),
+    MaterialRoute(page: OffersView, name: 'OffersViewRoute')
   ],
   transitionsBuilder: TransitionsBuilders.zoomIn,
   durationInMilliseconds: 400,
