@@ -19,6 +19,7 @@ class DashboardViewModel extends BaseViewModel {
   bool get vegOnlyToggle => _vegOnlyToggle;
   bool _openDrawer = false;
   bool get openDrawer => _openDrawer;
+  List<int> selected = [];
 
   getDateInterval() {
     var format = DateFormat("HH:mm");
@@ -44,8 +45,45 @@ class DashboardViewModel extends BaseViewModel {
     } else if (now.isAfter(close) && now.isBefore(morning)) {
       return _userNameWithWishhing = "Good Evening User Name";
     } else {
-      return _userNameWithWishhing = "UserName";
+      return _userNameWithWishhing = "Greetings UserName";
     }
+  }
+
+  getJumboMeal() {
+    var format = DateFormat("HH:mm");
+    DateTime now = DateTime.now();
+    DateTime morning = format.parse("07:00");
+    morning = new DateTime(
+        now.year, now.month, now.day, morning.hour, morning.minute);
+    DateTime afterenoon = format.parse("12:00");
+    afterenoon = new DateTime(
+        now.year, now.month, now.day, afterenoon.hour, afterenoon.minute);
+    DateTime evening = format.parse("16:00");
+    evening = new DateTime(
+        now.year, now.month, now.day, evening.hour, evening.minute);
+    DateTime close = format.parse("19:00");
+    close =
+        new DateTime(now.year, now.month, now.day, close.hour, close.minute);
+    if (now.isAfter(morning) && now.isBefore(afterenoon)) {
+      return _userNameWithWishhing = "It's Lunch Time!";
+    } else if (now.isAfter(afterenoon) && now.isBefore(evening)) {
+      return _userNameWithWishhing = "It's Lunch Time!";
+    } else if (now.isAfter(close) && now.isBefore(morning)) {
+      return _userNameWithWishhing = "Dinner is Served!";
+    } else {
+      return _userNameWithWishhing = "Dinner is Served!";
+    }
+  }
+
+  onRecommendedProductItemClick() {
+    for (var i = 0; i < 10; i++) {
+      var isSelected = selected.contains(i);
+      if (isSelected)
+        selected.remove(i);
+      else
+        selected.add(i);
+    }
+    notifyListeners();
   }
 
   loadData() async {}
@@ -63,20 +101,9 @@ class DashboardViewModel extends BaseViewModel {
         break;
       case 4:
         // _navigationService.navigateTo(Routes.MyMcdViewRoute);
-        callDrawer();
         break;
       default:
     }
-  }
-
-  callDrawer() {
-    _openDrawer = true;
-    notifyListeners();
-  }
-
-  onClickonDrawerContainer() {
-    _openDrawer = false;
-    notifyListeners();
   }
 
   setFlagForCategory(int i) {
@@ -94,5 +121,27 @@ class DashboardViewModel extends BaseViewModel {
   onVegOnlyToggleToggel(bool val) {
     _vegOnlyToggle = val;
     notifyListeners();
+  }
+
+  onDrawerClick() {
+    _openDrawer = true;
+    notifyListeners();
+  }
+
+  closeBottomSheet() {
+    _openDrawer = false;
+    notifyListeners();
+  }
+
+  navigateToSearch() {
+    _navigationService.navigateTo(Routes.SearchViewRoute);
+  }
+
+  onMenuPressed() {
+    _navigationService.navigateTo(Routes.MenuViewRoute);
+  }
+
+  onOfferPressed() {
+    _navigationService.navigateTo(Routes.OffersViewRoute);
   }
 }

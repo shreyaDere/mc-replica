@@ -1,12 +1,9 @@
 // import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:mc_delivery/constants/colors/colors.dart';
 import 'package:mc_delivery/ui/View/dashboard_view/dashboard_screen_view_model.dart';
 import 'package:stacked/stacked.dart';
-
-// import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class DashboardView extends StatelessWidget {
   const DashboardView({Key key}) : super(key: key);
@@ -21,7 +18,7 @@ class DashboardView extends StatelessWidget {
             backgroundColor: COLOR_PRIMARY,
             elevation: 0,
           ),
-          bottomNavigationBar: BottomNavigationBar(
+          /*BottomNavigationBar(
               type: BottomNavigationBarType.fixed,
               onTap: (index) => model.bottomNavigation(index),
               items: [
@@ -81,23 +78,164 @@ class DashboardView extends StatelessWidget {
                   ),
                 ),
               ]),
+         */
           body: SafeArea(
             top: true,
-            child: SingleChildScrollView(
-              key: PageStorageKey("DashboardWidgetList"),
-              child: Stack(
-                children: <Widget>[
-                  Container(
-                    height: 100,
-                    width: MediaQuery.of(context).size.width,
-                    color: COLOR_PRIMARY,
-                  ),
-                  DashboardWidgetList(),
-                  Visibility(visible: model.openDrawer, child: AppDrawerView())
-                ],
-              ),
+            child: Stack(
+              children: <Widget>[
+                DashboardWidgetList(),
+                Visibility(
+                    visible: model.openDrawer, child: DrawerBottomSheet()),
+                BottomNavigation()
+              ],
             ),
           )),
+    );
+  }
+}
+
+class BottomNavigation extends ViewModelWidget<DashboardViewModel> {
+  @override
+  Widget build(BuildContext context, DashboardViewModel viewModel) {
+    return Positioned(
+      bottom: 0.0,
+      child: Container(
+        height: viewModel.openDrawer ? 0.0 : 55,
+        width: viewModel.openDrawer ? 0.0 : MediaQuery.of(context).size.width,
+        color: Colors.white,
+        padding: EdgeInsets.only(top: 4, bottom: 4.0),
+        child: Row(
+          children: [
+            Expanded(
+                child: Column(
+              children: [
+                Image.asset(
+                  "assets/icons/m_logo.png",
+                  height: 20,
+                  // width: 30,
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Text(
+                  "Home",
+                  style: TextStyle(color: Colors.yellow),
+                ),
+              ],
+            )),
+            Expanded(
+                child: GestureDetector(
+              onTap: () => viewModel.navigateToSearch(),
+              child: Column(
+                children: [
+                  Icon(
+                    Icons.search,
+                    color: Colors.black,
+                    size: 20,
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Text(
+                    "Search",
+                    style: TextStyle(color: Colors.black),
+                  )
+                ],
+              ),
+            )),
+            Expanded(
+                child: GestureDetector(
+              onTap: () => viewModel.onMenuPressed(),
+              child: Column(
+                children: [
+                  Image.asset(
+                    "assets/icons/list.png",
+                    height: 20,
+                    width: 20,
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Text(
+                    "Menu",
+                    style: TextStyle(color: Colors.black),
+                  ),
+                ],
+              ),
+            )),
+            Expanded(
+                child: GestureDetector(
+              onTap: () => viewModel.onOfferPressed(),
+              child: Column(
+                children: [
+                  Image.asset(
+                    "assets/icons/discount.png",
+                    height: 20,
+                    width: 20,
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Text(
+                    "Offers",
+                    style: TextStyle(color: Colors.black),
+                  ),
+                ],
+              ),
+            )),
+            Expanded(
+                child: GestureDetector(
+              onTap: () => viewModel.onDrawerClick(),
+              child: Column(
+                children: [
+                  Image.asset(
+                    "assets/icons/user.png",
+                    height: 20,
+                    width: 20,
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Text(
+                    "My Mod",
+                    style: TextStyle(color: Colors.black),
+                  ),
+                ],
+              ),
+            ))
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class DrawerItem extends ViewModelWidget<DashboardViewModel> {
+  final String icon;
+  final String label;
+  DrawerItem(this.icon, this.label);
+  @override
+  Widget build(BuildContext context, DashboardViewModel viewModel) {
+    return Row(
+      children: [
+        SizedBox(
+          width: 20,
+        ),
+        Image.asset(
+          icon,
+          color: COLOR_PRIMARY,
+          height: 20,
+          width: 20,
+        ),
+        SizedBox(
+          width: 10,
+        ),
+        Text(
+          label,
+          style: TextStyle(
+              fontSize: 18, letterSpacing: 1, fontWeight: FontWeight.normal),
+        ),
+      ],
     );
   }
 }
@@ -105,32 +243,49 @@ class DashboardView extends StatelessWidget {
 class DashboardWidgetList extends ViewModelWidget<DashboardViewModel> {
   @override
   Widget build(BuildContext context, DashboardViewModel viewModel) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        SizedBox(height: MediaQuery.of(context).size.height / 22),
-        TopCarousel(),
-        SizedBox(height: 20),
-        Padding(
-          padding: const EdgeInsets.only(left: 20.0),
-          child: Text(
-            viewModel.getDateInterval(),
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+    return SingleChildScrollView(
+      key: PageStorageKey("DashboardWidgetList"),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Stack(
+            children: [
+              Positioned(
+                top: 0.0,
+                left: 0.0,
+                right: 0.0,
+                child: Container(
+                  height: 100,
+                  width: MediaQuery.of(context).size.width,
+                  color: COLOR_PRIMARY,
+                ),
+              ),
+              SizedBox(height: MediaQuery.of(context).size.height / 22),
+              TopCarousel(),
+              SizedBox(height: 20),
+            ],
           ),
-        ),
-        SizedBox(height: 20),
-        CategoryRow(),
-        SizedBox(height: 20),
-        CategoryList(),
-        SizedBox(
-          height: 20,
-        ),
-        LunchTimeMeal(),
-        SizedBox(
-          height: 20,
-        ),
-        RecommendedProductList(),
-      ],
+          Padding(
+            padding: const EdgeInsets.only(left: 20.0, top: 20),
+            child: Text(
+              viewModel.getDateInterval(),
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            ),
+          ),
+          SizedBox(height: 20),
+          CategoryRow(),
+          SizedBox(height: 20),
+          CategoryList(),
+          SizedBox(
+            height: 20,
+          ),
+          LunchTimeMeal(),
+          SizedBox(
+            height: 20,
+          ),
+          RecommendedProductList(),
+        ],
+      ),
     );
   }
 }
@@ -145,13 +300,15 @@ class RecommendedProductList extends ViewModelWidget<DashboardViewModel> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            height: 100,
-            width: MediaQuery.of(context).size.width - 100,
-            decoration: BoxDecoration(border: Border.all(color: Colors.grey)),
-            child: Image.asset(
-              "assets/icons/m_logo.png",
-              // height: 30,
+          Center(
+            child: Container(
+              height: 100,
+              width: MediaQuery.of(context).size.width - 100,
+              decoration: BoxDecoration(border: Border.all(color: Colors.grey)),
+              child: Image.asset(
+                "assets/icons/m_logo.png",
+                // height: 30,
+              ),
             ),
           ),
           SizedBox(
@@ -216,106 +373,208 @@ class RecommendedProductList extends ViewModelWidget<DashboardViewModel> {
           ),
           Container(
             width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height - 150,
             child: ListView.builder(
                 itemCount: 10,
                 shrinkWrap: true,
-                physics: ClampingScrollPhysics(),
+                physics: NeverScrollableScrollPhysics(),
                 itemBuilder: (ctx, index) {
-                  return Container(
-                    height: 150,
-                    width: MediaQuery.of(context).size.width,
-                    margin: EdgeInsets.only(bottom: 8, top: 8),
-                    // color: Colors.black,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          children: [
-                            Container(
-                              height: 100,
-                              width: 100,
-                              color: Colors.blue[50],
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Visibility(
-                              visible: viewModel.calorieToggle,
-                              child: RichText(
-                                text: TextSpan(
-                                  children: [
-                                    WidgetSpan(
-                                        child: Padding(
-                                      padding:
-                                          const EdgeInsets.only(right: 8.0),
-                                      child: Image.asset(
-                                        "assets/icons/fire.png",
-                                        height: 18,
-                                        width: 18,
-                                        color: COLOR_PRIMARY,
+                  return GestureDetector(
+                      onTap: () => viewModel.onRecommendedProductItemClick(),
+                      child: viewModel.selected.contains(index)
+                          ? Container(
+                              height: 320,
+                              width: MediaQuery.of(context).size.width,
+                              margin: EdgeInsets.only(bottom: 8, top: 8),
+                              // color: Colors.black,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    height: 150,
+                                    width: MediaQuery.of(context).size.width,
+                                    color: Colors.blue[50],
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Visibility(
+                                    visible: viewModel.calorieToggle,
+                                    child: RichText(
+                                      text: TextSpan(
+                                        children: [
+                                          WidgetSpan(
+                                              child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 8.0),
+                                            child: Image.asset(
+                                              "assets/icons/fire.png",
+                                              height: 18,
+                                              width: 18,
+                                              color: COLOR_PRIMARY,
+                                            ),
+                                          )),
+                                          TextSpan(
+                                              text: '460 Cal',
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 16,
+                                                  fontWeight:
+                                                      FontWeight.normal)),
+                                        ],
                                       ),
-                                    )),
-                                    TextSpan(
-                                        text: '460 Cal',
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.normal)),
-                                  ],
-                                ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text(
+                                    "McAloo Tikki Double Patty Burger",
+                                    style: TextStyle(fontSize: 18),
+                                  ),
+                                  SizedBox(
+                                    height: 8,
+                                  ),
+                                  Text(
+                                    "The World's favourite Indian \n burger! Two Crunchy potato ",
+                                    style: TextStyle(
+                                        fontSize: 14, color: Colors.grey),
+                                  ),
+                                  Row(
+                                    children: [
+                                      SizedBox(
+                                        width: 30,
+                                      ),
+                                      Icon(
+                                        Icons.monetization_on,
+                                        size: 20,
+                                      ),
+                                      Text("75"),
+                                      Spacer(),
+                                      Column(
+                                        children: [
+                                          Container(
+                                            width: 100,
+                                            height: 40,
+                                            margin: EdgeInsets.only(
+                                                top: 10, bottom: 2),
+                                            decoration: BoxDecoration(
+                                                color: COLOR_PRIMARY,
+                                                borderRadius:
+                                                    BorderRadius.circular(8.0)),
+                                            child: Center(child: Text("Add")),
+                                          ),
+                                          Text(
+                                            "customizable",
+                                            style: TextStyle(
+                                                color: Colors.grey,
+                                                fontSize: 14),
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ],
                               ),
-                            ),
-                          ],
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text(
-                              "McAloo Tikki Double Patty Burger",
-                              style: TextStyle(fontSize: 16),
-                            ),
-                            SizedBox(
-                              height: 8,
-                            ),
-                            Text(
-                              "The World's favourite Indian \n burger! Two Crunchy potato ",
-                              style: TextStyle(fontSize: 14),
-                            ),
-                            Row(
-                              children: [
-                                SizedBox(
-                                  width: 80,
-                                ),
-                                Icon(
-                                  Icons.monetization_on,
-                                  size: 20,
-                                ),
-                                Text("75"),
-                                SizedBox(
-                                  width: 20,
-                                ),
-                                Container(
-                                  width: 100,
-                                  height: 40,
-                                  margin: EdgeInsets.only(top: 10, bottom: 2),
-                                  decoration: BoxDecoration(
-                                      color: COLOR_PRIMARY,
-                                      borderRadius: BorderRadius.circular(8.0)),
-                                  child: Center(child: Text("Add")),
-                                )
-                              ],
-                            ),
-                            Text(
-                              "customizable",
-                              style:
-                                  TextStyle(color: Colors.grey, fontSize: 14),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  );
+                            )
+                          : Container(
+                              height: 150,
+                              width: MediaQuery.of(context).size.width,
+                              margin: EdgeInsets.only(bottom: 8, top: 8),
+                              // color: Colors.black,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    children: [
+                                      Container(
+                                        height: 100,
+                                        width: 100,
+                                        color: Colors.blue[50],
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Visibility(
+                                        visible: viewModel.calorieToggle,
+                                        child: RichText(
+                                          text: TextSpan(
+                                            children: [
+                                              WidgetSpan(
+                                                  child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    right: 8.0),
+                                                child: Image.asset(
+                                                  "assets/icons/fire.png",
+                                                  height: 18,
+                                                  width: 18,
+                                                  color: COLOR_PRIMARY,
+                                                ),
+                                              )),
+                                              TextSpan(
+                                                  text: '460 Cal',
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.normal)),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        "McAloo Tikki Double Patty Burger",
+                                        style: TextStyle(fontSize: 16),
+                                      ),
+                                      SizedBox(
+                                        height: 8,
+                                      ),
+                                      Text(
+                                        "The World's favourite Indian \n burger! Two Crunchy potato ",
+                                        style: TextStyle(fontSize: 14),
+                                      ),
+                                      Row(
+                                        children: [
+                                          SizedBox(
+                                            width: 80,
+                                          ),
+                                          Icon(
+                                            Icons.monetization_on,
+                                            size: 20,
+                                          ),
+                                          Text("75"),
+                                          SizedBox(
+                                            width: 20,
+                                          ),
+                                          Container(
+                                            width: 100,
+                                            height: 40,
+                                            margin: EdgeInsets.only(
+                                                top: 10, bottom: 2),
+                                            decoration: BoxDecoration(
+                                                color: COLOR_PRIMARY,
+                                                borderRadius:
+                                                    BorderRadius.circular(8.0)),
+                                            child: Center(child: Text("Add")),
+                                          )
+                                        ],
+                                      ),
+                                      Text(
+                                        "customizable",
+                                        style: TextStyle(
+                                            color: Colors.grey, fontSize: 14),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ));
                 }),
           ),
           SizedBox(
@@ -341,7 +600,7 @@ class LunchTimeMeal extends ViewModelWidget<DashboardViewModel> {
             height: 20,
           ),
           Text(
-            "It's Lunch Time!",
+            viewModel.getJumboMeal(),
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
           ),
           SizedBox(
@@ -415,18 +674,6 @@ class LunchTimeMeal extends ViewModelWidget<DashboardViewModel> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        // Stack(
-                        //   children: [
-                        //     Image.asset(
-                        //       "assets/icons/ribbon-black-shape.png",
-                        //       width: 50,
-                        //       height: 50,
-                        //       color: Colors.red,
-                        //     ),
-                        //     Positioned(
-                        //         top: 15, left: 2.0, child: Text("Safety")),
-                        //   ],
-                        // ),
                         ClipPath(
                           clipper: LinePathBanner(),
                           child: Container(
@@ -755,21 +1002,112 @@ class CategoryRow extends ViewModelWidget<DashboardViewModel> {
   }
 }
 
-class AppDrawerView extends ViewModelWidget<DashboardViewModel> {
+class DrawerBottomSheet extends ViewModelWidget<DashboardViewModel> {
   @override
   Widget build(BuildContext context, DashboardViewModel viewModel) {
-    return GestureDetector(
-      onTap: viewModel.onClickonDrawerContainer(),
-      // child: showMaterialModalBottomSheet(
-      //   context: context,
-      //   builder: (context) => Container(),
-      // )
-      /*Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        color: Colors.black26,
-
-      ),*/
+    return Positioned(
+      top: 0.0,
+      bottom: 0.0,
+      right: 0.0,
+      left: 0.0,
+      child: Stack(
+        children: [
+          GestureDetector(
+            onTap: () => viewModel.closeBottomSheet(),
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              color: Colors.black26,
+            ),
+          ),
+          Positioned(
+            top: MediaQuery.of(context).size.height / 6,
+            bottom: 0.0,
+            right: 0.0,
+            left: 0.0,
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              padding: EdgeInsets.only(left: 20, right: 20),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10.0)),
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Hi Shreya dere",
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            height: 2.0,
+                          ),
+                          Text(
+                            "987654321",
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.normal),
+                          ),
+                          SizedBox(
+                            height: 2.0,
+                          ),
+                          Text(
+                            "Logout",
+                            style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.blue,
+                                fontWeight: FontWeight.normal),
+                          ),
+                        ],
+                      ),
+                      Spacer(),
+                      Icon(
+                        Icons.arrow_forward_ios_sharp,
+                        color: COLOR_PRIMARY,
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  DrawerItem("assets/icons/shopping.png", "My Orders"),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  DrawerItem("assets/icons/chat.png", "Track Order"),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  DrawerItem("assets/icons/file.png", "Payment History"),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  DrawerItem("assets/icons/discount.png", "Offers"),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  DrawerItem("assets/icons/invitation.png", "Get free burgers"),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  DrawerItem("assets/icons/placeholder.png", "Store locator"),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  DrawerItem("assets/icons/settings.png", "Settings"),
+                ],
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 }

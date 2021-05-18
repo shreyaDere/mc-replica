@@ -10,7 +10,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 import '../../ui/View/dashboard_view/dashboard_screen_view.dart';
+import '../../ui/View/menu/menu_view.dart';
 import '../../ui/View/my_mcd_view/my_mcd_view.dart';
+import '../../ui/View/offers/offer_view.dart';
 import '../../ui/View/search_view/search_screen_view.dart';
 import '../../ui/View/splash_screen/splash_screen_view.dart';
 
@@ -19,11 +21,15 @@ class Routes {
   static const String DashboardViewRoute = '/dashboard-view';
   static const String MyMcdViewRoute = '/my-mcd-view';
   static const String SearchViewRoute = '/search-view';
+  static const String MenuViewRoute = '/menu-view';
+  static const String OffersViewRoute = '/offers-view';
   static const all = <String>{
     SplashScreenViewRoute,
     DashboardViewRoute,
     MyMcdViewRoute,
     SearchViewRoute,
+    MenuViewRoute,
+    OffersViewRoute,
   };
 }
 
@@ -35,6 +41,8 @@ class Router extends RouterBase {
     RouteDef(Routes.DashboardViewRoute, page: DashboardView),
     RouteDef(Routes.MyMcdViewRoute, page: MyMcdView),
     RouteDef(Routes.SearchViewRoute, page: SearchView),
+    RouteDef(Routes.MenuViewRoute, page: MenuView),
+    RouteDef(Routes.OffersViewRoute, page: OffersView),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
@@ -47,7 +55,7 @@ class Router extends RouterBase {
     },
     DashboardView: (data) {
       return MaterialPageRoute<dynamic>(
-        builder: (context) => DashboardView(),
+        builder: (context) => const DashboardView(),
         settings: data,
       );
     },
@@ -59,7 +67,19 @@ class Router extends RouterBase {
     },
     SearchView: (data) {
       return MaterialPageRoute<dynamic>(
-        builder: (context) => SearchView(),
+        builder: (context) => const SearchView(),
+        settings: data,
+      );
+    },
+    MenuView: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => const MenuView(),
+        settings: data,
+      );
+    },
+    OffersView: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => const OffersView(),
         settings: data,
       );
     },
