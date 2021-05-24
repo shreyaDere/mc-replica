@@ -102,7 +102,7 @@ class DashboardViewModel extends BaseViewModel {
         _navigationService.navigateTo(Routes.InviteAndShareViewRoute);
         break;
       case 5:
-        // _navigationService.navigateTo(Routes.InviteAndShareViewRoute);
+        _navigationService.navigateTo(Routes.StoreLocationViewRoute);
         break;
       case 6:
         _navigationService.navigateTo(Routes.SettingsViewRoute);

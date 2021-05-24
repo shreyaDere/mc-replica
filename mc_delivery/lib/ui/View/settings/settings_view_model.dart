@@ -22,20 +22,14 @@ class SettingsViewModel extends BaseViewModel {
 
   onIconClick(int index) {
     switch (index) {
-      case 0:
-        break;
-      case 1:
-        break;
       case 2:
         _navigationService.navigateTo(Routes.TearmsAndConditionViewRoute);
         break;
       case 3:
+        _navigationService.navigateTo(Routes.FaqViewRoute);
         break;
       case 4:
         break;
-      case 5:
-        break;
-      default:
     }
   }
 

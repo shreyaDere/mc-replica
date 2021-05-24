@@ -9,6 +9,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
+import '../../ui/View/FAQ/faq_view.dart';
 import '../../ui/View/Invite_share/invite_share_view.dart';
 import '../../ui/View/dashboard_view/dashboard_screen_view.dart';
 import '../../ui/View/menu/menu_view.dart';
@@ -16,6 +17,8 @@ import '../../ui/View/offers/offer_view.dart';
 import '../../ui/View/search_view/search_screen_view.dart';
 import '../../ui/View/settings/settings_view.dart';
 import '../../ui/View/splash_screen/splash_screen_view.dart';
+import '../../ui/View/store%20details/store_details_view.dart';
+import '../../ui/View/store_location/store_location_view.dart';
 import '../../ui/View/terms_condition/tearms_condition_view.dart';
 
 class Routes {
@@ -28,6 +31,9 @@ class Routes {
   static const String OffersViewRoute = '/offers-view';
   static const String InviteAndShareViewRoute = '/invite-and-share-view';
   static const String SettingsViewRoute = '/settings-view';
+  static const String FaqViewRoute = '/faq-view';
+  static const String StoreLocationViewRoute = '/store-location-view';
+  static const String StoreDetailsViewRoute = '/store-details-view';
   static const all = <String>{
     SplashScreenViewRoute,
     DashboardViewRoute,
@@ -37,6 +43,9 @@ class Routes {
     OffersViewRoute,
     InviteAndShareViewRoute,
     SettingsViewRoute,
+    FaqViewRoute,
+    StoreLocationViewRoute,
+    StoreDetailsViewRoute,
   };
 }
 
@@ -52,6 +61,9 @@ class Router extends RouterBase {
     RouteDef(Routes.OffersViewRoute, page: OffersView),
     RouteDef(Routes.InviteAndShareViewRoute, page: InviteAndShareView),
     RouteDef(Routes.SettingsViewRoute, page: SettingsView),
+    RouteDef(Routes.FaqViewRoute, page: FaqView),
+    RouteDef(Routes.StoreLocationViewRoute, page: StoreLocationView),
+    RouteDef(Routes.StoreDetailsViewRoute, page: StoreDetailsView),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
@@ -104,5 +116,40 @@ class Router extends RouterBase {
         settings: data,
       );
     },
+    FaqView: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => const FaqView(),
+        settings: data,
+      );
+    },
+    StoreLocationView: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => const StoreLocationView(),
+        settings: data,
+      );
+    },
+    StoreDetailsView: (data) {
+      final args = data.getArgs<StoreDetailsViewArguments>(
+        orElse: () => StoreDetailsViewArguments(),
+      );
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => StoreDetailsView(
+          key: args.key,
+          storeName: args.storeName,
+        ),
+        settings: data,
+      );
+    },
   };
+}
+
+/// ************************************************************************
+/// Arguments holder classes
+/// *************************************************************************
+
+/// StoreDetailsView arguments holder class
+class StoreDetailsViewArguments {
+  final Key key;
+  final String storeName;
+  StoreDetailsViewArguments({this.key, this.storeName});
 }

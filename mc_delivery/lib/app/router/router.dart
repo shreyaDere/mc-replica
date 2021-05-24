@@ -22,8 +22,11 @@ import 'package:mc_delivery/ui/View/menu/menu_view.dart';
 import 'package:mc_delivery/ui/View/offers/offer_view.dart';
 import 'package:mc_delivery/ui/View/search_view/search_screen_view.dart';
 import 'package:mc_delivery/ui/View/splash_screen/splash_screen_view.dart';
+import 'package:mc_delivery/ui/View/store%20details/store_details_view.dart';
 import 'package:mc_delivery/ui/View/terms_condition/tearms_condition_view.dart';
 import 'package:mc_delivery/ui/View/settings/settings_view.dart';
+import 'package:mc_delivery/ui/View/FAQ/faq_view.dart';
+import 'package:mc_delivery/ui/View/store_location/store_location_view.dart';
 
 // Defining routes and global transitions
 @CustomAutoRouter(
@@ -48,7 +51,10 @@ import 'package:mc_delivery/ui/View/settings/settings_view.dart';
     MaterialRoute(page: MenuView, name: 'MenuViewRoute'),
     MaterialRoute(page: OffersView, name: 'OffersViewRoute'),
     MaterialRoute(page: InviteAndShareView, name: 'InviteAndShareViewRoute'),
-    MaterialRoute(page: SettingsView, name: 'SettingsViewRoute')
+    MaterialRoute(page: SettingsView, name: 'SettingsViewRoute'),
+    MaterialRoute(page: FaqView, name: 'FaqViewRoute'),
+    MaterialRoute(page: StoreLocationView, name: 'StoreLocationViewRoute'),
+    MaterialRoute(page: StoreDetailsView, name: 'StoreDetailsViewRoute')
   ],
   transitionsBuilder: TransitionsBuilders.zoomIn,
   durationInMilliseconds: 400,
