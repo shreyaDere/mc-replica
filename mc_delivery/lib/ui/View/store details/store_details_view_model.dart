@@ -1,5 +1,4 @@
 import 'package:mc_delivery/app/locator/locator.dart';
-import 'package:mc_delivery/app/router/router.gr.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
