@@ -14,10 +14,6 @@ class DashboardView extends StatelessWidget {
       viewModelBuilder: () => DashboardViewModel(),
       onModelReady: (model) => model.loadData(),
       builder: (context, model, child) => Scaffold(
-          appBar: AppBar(
-            backgroundColor: COLOR_PRIMARY,
-            elevation: 0,
-          ),
           /*BottomNavigationBar(
               type: BottomNavigationBarType.fixed,
               onTap: (index) => model.bottomNavigation(index),
@@ -80,17 +76,96 @@ class DashboardView extends StatelessWidget {
               ]),
          */
           body: SafeArea(
-            top: true,
-            child: Stack(
-              children: <Widget>[
-                DashboardWidgetList(),
-                Visibility(
-                    visible: model.openDrawer, child: DrawerBottomSheet()),
-                BottomNavigation(),
-                // Visibility(visible: true, child: DeliveryTypeBottomSheet()),
-              ],
+        top: true,
+        child: Stack(
+          children: <Widget>[
+            DashboardWidgetList(),
+            AppBarWidget(),
+            Visibility(visible: model.openDrawer, child: DrawerBottomSheet()),
+            BottomNavigation(),
+            Visibility(
+                visible: model.deliveryType, child: DeliveryTypeBottomSheet()),
+          ],
+        ),
+      )),
+    );
+  }
+}
+
+class AppBarWidget extends ViewModelWidget<DashboardViewModel> {
+  @override
+  Widget build(BuildContext context, DashboardViewModel viewModel) {
+    return Positioned(
+      top: 0.0,
+      child: Container(
+        height: 60,
+        width: MediaQuery.of(context).size.width,
+        color: COLOR_PRIMARY,
+        child: Row(
+          children: [
+            SizedBox(
+              width: 10,
             ),
-          )),
+            GestureDetector(
+              onTap: () => viewModel.onAppBarClick(),
+              child: Container(
+                height: 60,
+                width: 70,
+                child: Center(
+                  child: Text(viewModel.deliveryTypeName,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold)),
+                ),
+              ),
+            ),
+            Icon(
+              Icons.keyboard_arrow_down,
+              size: 28,
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            Container(
+              width: 110,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "fhwrbfywhbfhb evbhfhwe",
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontSize: 14),
+                  ),
+                  Divider(
+                    height: 10,
+                    color: Colors.black,
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              width: 30,
+            ),
+            Text("6:26 PM",
+                overflow: TextOverflow.fade,
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w300)),
+            Icon(
+              Icons.keyboard_arrow_down,
+              size: 28,
+            ),
+            Spacer(),
+            Icon(
+              Icons.notifications,
+              size: 35,
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -253,6 +328,9 @@ class DashboardWidgetList extends ViewModelWidget<DashboardViewModel> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
+          SizedBox(
+            height: 60,
+          ),
           Stack(
             children: [
               Positioned(
@@ -265,7 +343,7 @@ class DashboardWidgetList extends ViewModelWidget<DashboardViewModel> {
                   color: COLOR_PRIMARY,
                 ),
               ),
-              SizedBox(height: MediaQuery.of(context).size.height / 22),
+              SizedBox(height: MediaQuery.of(context).size.height / 20),
               TopCarousel(),
               SizedBox(height: 20),
             ],
@@ -1156,210 +1234,222 @@ class DeliveryTypeBottomSheet extends ViewModelWidget<DashboardViewModel> {
                   // ignore: missing_return
                   itemBuilder: (ctx, index) {
                     if (index == 0) {
-                      return Container(
-                        padding: EdgeInsets.all(15),
-                        margin: EdgeInsets.only(bottom: 10, top: 10),
-                        decoration: BoxDecoration(
-                            border:
-                                Border.all(color: Colors.grey[400], width: 0.8),
-                            borderRadius: BorderRadius.circular(4)),
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Container(
-                                  width: 130,
-                                  height: 130,
-                                  color: Colors.blue[50],
-                                ),
-                                SizedBox(
-                                  width: 15,
-                                ),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Delivery",
-                                        style: TextStyle(
-                                            fontSize: 22,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.black),
-                                      ),
-                                      Text(
-                                        "Enjoy safe and contactless delivery to your doorstep with exciting offers!",
-                                        // maxLines: 4,
-                                        style: TextStyle(
-                                            fontSize: 19,
-                                            letterSpacing: 0.4,
-                                            fontWeight: FontWeight.normal,
-                                            color: Colors.black87),
-                                      )
-                                    ],
+                      return GestureDetector(
+                        onTap: () => viewModel.changeDeliveryType(index),
+                        child: Container(
+                          padding: EdgeInsets.all(15),
+                          margin: EdgeInsets.only(bottom: 10, top: 10),
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: Colors.grey[400], width: 0.8),
+                              borderRadius: BorderRadius.circular(4)),
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Container(
+                                    width: 130,
+                                    height: 130,
+                                    color: Colors.blue[50],
                                   ),
-                                )
-                              ],
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              "Get a FREE Mcaloo Tikki Burger or Chicken kebab Burger on order above Rs.299 .Use code -B299",
-                              // maxLines: 4,
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                  color: Colors.black),
-                            )
-                          ],
+                                  SizedBox(
+                                    width: 15,
+                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "Delivery",
+                                          style: TextStyle(
+                                              fontSize: 22,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.black),
+                                        ),
+                                        Text(
+                                          "Enjoy safe and contactless delivery to your doorstep with exciting offers!",
+                                          // maxLines: 4,
+                                          style: TextStyle(
+                                              fontSize: 19,
+                                              letterSpacing: 0.4,
+                                              fontWeight: FontWeight.normal,
+                                              color: Colors.black87),
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                "Get a FREE Mcaloo Tikki Burger or Chicken kebab Burger on order above Rs.299 .Use code -B299",
+                                // maxLines: 4,
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.normal,
+                                    color: Colors.black),
+                              )
+                            ],
+                          ),
                         ),
                       );
                     } else if (index == 1) {
-                      return Container(
-                        padding: EdgeInsets.all(15),
-                        margin: EdgeInsets.only(bottom: 10, top: 10),
-                        decoration: BoxDecoration(
-                            border:
-                                Border.all(color: Colors.grey[400], width: 0.8),
-                            borderRadius: BorderRadius.circular(4)),
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Container(
-                                  width: 130,
-                                  height: 130,
-                                  color: Colors.blue[50],
-                                ),
-                                SizedBox(
-                                  width: 15,
-                                ),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "On The Go",
-                                        style: TextStyle(
-                                            fontSize: 22,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.black),
-                                      ),
-                                      Text(
-                                        "Delivered to your car at a pick-up point on your way", // maxLines: 4,
-                                        style: TextStyle(
-                                            fontSize: 19,
-                                            letterSpacing: 0.4,
-                                            fontWeight: FontWeight.normal,
-                                            color: Colors.black87),
-                                      )
-                                    ],
+                      return GestureDetector(
+                        onTap: () => viewModel.changeDeliveryType(index),
+                        child: Container(
+                          padding: EdgeInsets.all(15),
+                          margin: EdgeInsets.only(bottom: 10, top: 10),
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: Colors.grey[400], width: 0.8),
+                              borderRadius: BorderRadius.circular(4)),
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Container(
+                                    width: 130,
+                                    height: 130,
+                                    color: Colors.blue[50],
                                   ),
-                                )
-                              ],
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              "Get a FREE Mcaloo Tikki Burger or Chicken kebab Burger on order above Rs.599 .Use code -OTG17",
-                              // maxLines: 4,
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                  color: Colors.black),
-                            )
-                          ],
+                                  SizedBox(
+                                    width: 15,
+                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "On The Go",
+                                          style: TextStyle(
+                                              fontSize: 22,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.black),
+                                        ),
+                                        Text(
+                                          "Delivered to your car at a pick-up point on your way", // maxLines: 4,
+                                          style: TextStyle(
+                                              fontSize: 19,
+                                              letterSpacing: 0.4,
+                                              fontWeight: FontWeight.normal,
+                                              color: Colors.black87),
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                "Get a FREE Mcaloo Tikki Burger or Chicken kebab Burger on order above Rs.599 .Use code -OTG17",
+                                // maxLines: 4,
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.normal,
+                                    color: Colors.black),
+                              )
+                            ],
+                          ),
                         ),
                       );
                     } else if (index == 2) {
-                      return Container(
-                        padding: EdgeInsets.all(15),
-                        margin: EdgeInsets.only(bottom: 10, top: 10),
-                        decoration: BoxDecoration(
-                            border:
-                                Border.all(color: Colors.grey[400], width: 0.8),
-                            borderRadius: BorderRadius.circular(4)),
-                        child: Row(
-                          children: [
-                            Container(
-                              width: 130,
-                              height: 130,
-                              color: Colors.blue[50],
-                            ),
-                            SizedBox(
-                              width: 15,
-                            ),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Takeout",
-                                    style: TextStyle(
-                                        fontSize: 22,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black),
-                                  ),
-                                  Text(
-                                    "Order and pick-up from one of our restaurants",
-                                    // maxLines: 4,
-                                    style: TextStyle(
-                                        fontSize: 19,
-                                        letterSpacing: 0.4,
-                                        fontWeight: FontWeight.normal,
-                                        color: Colors.black87),
-                                  )
-                                ],
+                      return GestureDetector(
+                        onTap: () => viewModel.changeDeliveryType(index),
+                        child: Container(
+                          padding: EdgeInsets.all(15),
+                          margin: EdgeInsets.only(bottom: 10, top: 10),
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: Colors.grey[400], width: 0.8),
+                              borderRadius: BorderRadius.circular(4)),
+                          child: Row(
+                            children: [
+                              Container(
+                                width: 130,
+                                height: 130,
+                                color: Colors.blue[50],
                               ),
-                            )
-                          ],
+                              SizedBox(
+                                width: 15,
+                              ),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Takeout",
+                                      style: TextStyle(
+                                          fontSize: 22,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black),
+                                    ),
+                                    Text(
+                                      "Order and pick-up from one of our restaurants",
+                                      // maxLines: 4,
+                                      style: TextStyle(
+                                          fontSize: 19,
+                                          letterSpacing: 0.4,
+                                          fontWeight: FontWeight.normal,
+                                          color: Colors.black87),
+                                    )
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       );
                     } else if (index == 3) {
-                      return Container(
-                        padding: EdgeInsets.all(15),
-                        margin: EdgeInsets.only(bottom: 20, top: 10),
-                        decoration: BoxDecoration(
-                            border:
-                                Border.all(color: Colors.grey[400], width: 0.8),
-                            borderRadius: BorderRadius.circular(4)),
-                        child: Row(
-                          children: [
-                            Container(
-                              width: 130,
-                              height: 130,
-                              color: Colors.blue[50],
-                            ),
-                            SizedBox(
-                              width: 15,
-                            ),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Dine In",
-                                    style: TextStyle(
-                                        fontSize: 22,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black),
-                                  ),
-                                  Text(
-                                    "Order online and dine in the restaurant",
-                                    // maxLines: 4,
-                                    style: TextStyle(
-                                        fontSize: 19,
-                                        letterSpacing: 0.4,
-                                        fontWeight: FontWeight.normal,
-                                        color: Colors.black87),
-                                  )
-                                ],
+                      return GestureDetector(
+                        onTap: () => viewModel.changeDeliveryType(index),
+                        child: Container(
+                          padding: EdgeInsets.all(15),
+                          margin: EdgeInsets.only(bottom: 20, top: 10),
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: Colors.grey[400], width: 0.8),
+                              borderRadius: BorderRadius.circular(4)),
+                          child: Row(
+                            children: [
+                              Container(
+                                width: 130,
+                                height: 130,
+                                color: Colors.blue[50],
                               ),
-                            )
-                          ],
+                              SizedBox(
+                                width: 15,
+                              ),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Dine In",
+                                      style: TextStyle(
+                                          fontSize: 22,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black),
+                                    ),
+                                    Text(
+                                      "Order online and dine in the restaurant",
+                                      // maxLines: 4,
+                                      style: TextStyle(
+                                          fontSize: 19,
+                                          letterSpacing: 0.4,
+                                          fontWeight: FontWeight.normal,
+                                          color: Colors.black87),
+                                    )
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       );
                     }

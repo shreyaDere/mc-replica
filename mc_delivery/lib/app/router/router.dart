@@ -21,12 +21,14 @@ import 'package:mc_delivery/ui/View/dashboard_view/dashboard_screen_view.dart';
 import 'package:mc_delivery/ui/View/menu/menu_view.dart';
 import 'package:mc_delivery/ui/View/offers/offer_view.dart';
 import 'package:mc_delivery/ui/View/search_view/search_screen_view.dart';
+import 'package:mc_delivery/ui/View/set_pick_up_point_view/set_pick_up_point_view.dart';
 import 'package:mc_delivery/ui/View/splash_screen/splash_screen_view.dart';
 import 'package:mc_delivery/ui/View/store%20details/store_details_view.dart';
 import 'package:mc_delivery/ui/View/terms_condition/tearms_condition_view.dart';
 import 'package:mc_delivery/ui/View/settings/settings_view.dart';
 import 'package:mc_delivery/ui/View/FAQ/faq_view.dart';
 import 'package:mc_delivery/ui/View/store_location/store_location_view.dart';
+import 'package:mc_delivery/ui/View/search_location/search_location_view.dart';
 
 // Defining routes and global transitions
 @CustomAutoRouter(
@@ -54,9 +56,11 @@ import 'package:mc_delivery/ui/View/store_location/store_location_view.dart';
     MaterialRoute(page: SettingsView, name: 'SettingsViewRoute'),
     MaterialRoute(page: FaqView, name: 'FaqViewRoute'),
     MaterialRoute(page: StoreLocationView, name: 'StoreLocationViewRoute'),
-    MaterialRoute(page: StoreDetailsView, name: 'StoreDetailsViewRoute')
+    MaterialRoute(page: StoreDetailsView, name: 'StoreDetailsViewRoute'),
+    MaterialRoute(page: SetPickUpView, name: 'SetPickUpViewRoute'),
+    MaterialRoute(page: SearchLocationView, name: 'SearchLocationViewRoute')
   ],
-  transitionsBuilder: TransitionsBuilders.zoomIn,
+  transitionsBuilder: TransitionsBuilders.slideRight,
   durationInMilliseconds: 400,
 )
 class $Router {}
