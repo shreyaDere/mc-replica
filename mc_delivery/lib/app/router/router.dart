@@ -28,7 +28,6 @@ import 'package:mc_delivery/ui/View/terms_condition/tearms_condition_view.dart';
 import 'package:mc_delivery/ui/View/settings/settings_view.dart';
 import 'package:mc_delivery/ui/View/FAQ/faq_view.dart';
 import 'package:mc_delivery/ui/View/store_location/store_location_view.dart';
-import 'package:mc_delivery/ui/View/search_location/search_location_view.dart';
 
 // Defining routes and global transitions
 @CustomAutoRouter(
@@ -57,8 +56,7 @@ import 'package:mc_delivery/ui/View/search_location/search_location_view.dart';
     MaterialRoute(page: FaqView, name: 'FaqViewRoute'),
     MaterialRoute(page: StoreLocationView, name: 'StoreLocationViewRoute'),
     MaterialRoute(page: StoreDetailsView, name: 'StoreDetailsViewRoute'),
-    MaterialRoute(page: SetPickUpView, name: 'SetPickUpViewRoute'),
-    MaterialRoute(page: SearchLocationView, name: 'SearchLocationViewRoute')
+    MaterialRoute(page: SetPickUpView, name: 'SetPickUpViewRoute')
   ],
   transitionsBuilder: TransitionsBuilders.slideRight,
   durationInMilliseconds: 400,
