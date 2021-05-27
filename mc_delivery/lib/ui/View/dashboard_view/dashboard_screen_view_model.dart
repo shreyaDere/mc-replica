@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:mc_delivery/app/locator/locator.dart';
 import 'package:mc_delivery/app/router/router.gr.dart';
 import 'package:mc_delivery/logger/logger.dart';
@@ -19,6 +18,10 @@ class DashboardViewModel extends BaseViewModel {
   bool get vegOnlyToggle => _vegOnlyToggle;
   bool _openDrawer = false;
   bool get openDrawer => _openDrawer;
+  bool _deliveryType = false;
+  bool get deliveryType => _deliveryType;
+  String _deliveryTypeName = "Delivery";
+  String get deliveryTypeName => _deliveryTypeName;
   List<int> selected = [];
 
   getDateInterval() {
@@ -88,19 +91,25 @@ class DashboardViewModel extends BaseViewModel {
 
   loadData() async {}
 
-  bottomNavigation(int index) {
+  appDrawerNavigation(int index) {
     switch (index) {
       case 0:
         break;
       case 1:
-        _navigationService.navigateTo(Routes.SearchViewRoute);
+        // _navigationService.navigateTo(Routes.SearchViewRoute);
         break;
       case 2:
         break;
       case 3:
         break;
       case 4:
-        // _navigationService.navigateTo(Routes.MyMcdViewRoute);
+        _navigationService.navigateTo(Routes.InviteAndShareViewRoute);
+        break;
+      case 5:
+        _navigationService.navigateTo(Routes.StoreLocationViewRoute);
+        break;
+      case 6:
+        _navigationService.navigateTo(Routes.SettingsViewRoute);
         break;
       default:
     }
@@ -130,6 +139,7 @@ class DashboardViewModel extends BaseViewModel {
 
   closeBottomSheet() {
     _openDrawer = false;
+    _deliveryType = false;
     notifyListeners();
   }
 
@@ -143,5 +153,35 @@ class DashboardViewModel extends BaseViewModel {
 
   onOfferPressed() {
     _navigationService.navigateTo(Routes.OffersViewRoute);
+  }
+
+  onAppBarClick() {
+    _deliveryType = true;
+    notifyListeners();
+  }
+
+  changeDeliveryType(int index) {
+    switch (index) {
+      case 0:
+        _deliveryTypeName = "Delivery";
+        break;
+      case 1:
+        _deliveryTypeName = "On The Go";
+        _deliveryType = false;
+        _navigationService.navigateTo(Routes.SetPickUpViewRoute);
+        break;
+      case 2:
+        _deliveryTypeName = "Takeout";
+        _deliveryType = false;
+        _navigationService.navigateTo(Routes.SetPickUpViewRoute);
+        break;
+      case 3:
+        _deliveryTypeName = "Dine In";
+        _deliveryType = false;
+        _navigationService.navigateTo(Routes.SetPickUpViewRoute);
+        break;
+      default:
+    }
+    notifyListeners();
   }
 }

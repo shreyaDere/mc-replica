@@ -14,10 +14,6 @@ class DashboardView extends StatelessWidget {
       viewModelBuilder: () => DashboardViewModel(),
       onModelReady: (model) => model.loadData(),
       builder: (context, model, child) => Scaffold(
-          appBar: AppBar(
-            backgroundColor: COLOR_PRIMARY,
-            elevation: 0,
-          ),
           /*BottomNavigationBar(
               type: BottomNavigationBarType.fixed,
               onTap: (index) => model.bottomNavigation(index),
@@ -80,16 +76,96 @@ class DashboardView extends StatelessWidget {
               ]),
          */
           body: SafeArea(
-            top: true,
-            child: Stack(
-              children: <Widget>[
-                DashboardWidgetList(),
-                Visibility(
-                    visible: model.openDrawer, child: DrawerBottomSheet()),
-                BottomNavigation()
-              ],
+        top: true,
+        child: Stack(
+          children: <Widget>[
+            DashboardWidgetList(),
+            AppBarWidget(),
+            Visibility(visible: model.openDrawer, child: DrawerBottomSheet()),
+            BottomNavigation(),
+            Visibility(
+                visible: model.deliveryType, child: DeliveryTypeBottomSheet()),
+          ],
+        ),
+      )),
+    );
+  }
+}
+
+class AppBarWidget extends ViewModelWidget<DashboardViewModel> {
+  @override
+  Widget build(BuildContext context, DashboardViewModel viewModel) {
+    return Positioned(
+      top: 0.0,
+      child: Container(
+        height: 60,
+        width: MediaQuery.of(context).size.width,
+        color: COLOR_PRIMARY,
+        child: Row(
+          children: [
+            SizedBox(
+              width: 10,
             ),
-          )),
+            GestureDetector(
+              onTap: () => viewModel.onAppBarClick(),
+              child: Container(
+                height: 60,
+                width: 70,
+                child: Center(
+                  child: Text(viewModel.deliveryTypeName,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold)),
+                ),
+              ),
+            ),
+            Icon(
+              Icons.keyboard_arrow_down,
+              size: 28,
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            Container(
+              width: 110,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "fhwrbfywhbfhb evbhfhwe",
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontSize: 14),
+                  ),
+                  Divider(
+                    height: 10,
+                    color: Colors.black,
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              width: 30,
+            ),
+            Text("6:26 PM",
+                overflow: TextOverflow.fade,
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w300)),
+            Icon(
+              Icons.keyboard_arrow_down,
+              size: 28,
+            ),
+            Spacer(),
+            Icon(
+              Icons.notifications,
+              size: 35,
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -213,29 +289,33 @@ class BottomNavigation extends ViewModelWidget<DashboardViewModel> {
 class DrawerItem extends ViewModelWidget<DashboardViewModel> {
   final String icon;
   final String label;
-  DrawerItem(this.icon, this.label);
+  final int index;
+  DrawerItem(this.icon, this.label, this.index);
   @override
   Widget build(BuildContext context, DashboardViewModel viewModel) {
-    return Row(
-      children: [
-        SizedBox(
-          width: 20,
-        ),
-        Image.asset(
-          icon,
-          color: COLOR_PRIMARY,
-          height: 20,
-          width: 20,
-        ),
-        SizedBox(
-          width: 10,
-        ),
-        Text(
-          label,
-          style: TextStyle(
-              fontSize: 18, letterSpacing: 1, fontWeight: FontWeight.normal),
-        ),
-      ],
+    return GestureDetector(
+      onTap: () => viewModel.appDrawerNavigation(index),
+      child: Row(
+        children: [
+          SizedBox(
+            width: 20,
+          ),
+          Image.asset(
+            icon,
+            color: COLOR_PRIMARY,
+            height: 20,
+            width: 20,
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          Text(
+            label,
+            style: TextStyle(
+                fontSize: 18, letterSpacing: 1, fontWeight: FontWeight.normal),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -248,6 +328,9 @@ class DashboardWidgetList extends ViewModelWidget<DashboardViewModel> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
+          SizedBox(
+            height: 60,
+          ),
           Stack(
             children: [
               Positioned(
@@ -260,7 +343,7 @@ class DashboardWidgetList extends ViewModelWidget<DashboardViewModel> {
                   color: COLOR_PRIMARY,
                 ),
               ),
-              SizedBox(height: MediaQuery.of(context).size.height / 22),
+              SizedBox(height: MediaQuery.of(context).size.height / 20),
               TopCarousel(),
               SizedBox(height: 20),
             ],
@@ -345,6 +428,7 @@ class RecommendedProductList extends ViewModelWidget<DashboardViewModel> {
                     toggleSize: 15.0,
                     borderRadius: 30.0,
                     padding: 3.5,
+                    activeColor: COLOR_PRIMARY,
                     inactiveColor: Colors.grey[350],
                     value: viewModel.calorieToggle,
                     onToggle: (val) => viewModel.onCalorieToggel(val),
@@ -362,6 +446,7 @@ class RecommendedProductList extends ViewModelWidget<DashboardViewModel> {
                     toggleSize: 15.0,
                     borderRadius: 30.0,
                     padding: 3.5,
+                    activeColor: COLOR_PRIMARY,
                     inactiveColor: Colors.grey[350],
                     value: viewModel.vegOnlyToggle,
                     onToggle: (val) => viewModel.onVegOnlyToggleToggel(val),
@@ -1077,34 +1162,299 @@ class DrawerBottomSheet extends ViewModelWidget<DashboardViewModel> {
                   SizedBox(
                     height: 30,
                   ),
-                  DrawerItem("assets/icons/shopping.png", "My Orders"),
+                  DrawerItem("assets/icons/shopping.png", "My Orders", 0),
                   SizedBox(
                     height: 30,
                   ),
-                  DrawerItem("assets/icons/chat.png", "Track Order"),
+                  DrawerItem("assets/icons/chat.png", "Track Order", 1),
                   SizedBox(
                     height: 30,
                   ),
-                  DrawerItem("assets/icons/file.png", "Payment History"),
+                  DrawerItem("assets/icons/file.png", "Payment History", 2),
                   SizedBox(
                     height: 30,
                   ),
-                  DrawerItem("assets/icons/discount.png", "Offers"),
+                  DrawerItem("assets/icons/discount.png", "Offers", 3),
                   SizedBox(
                     height: 30,
                   ),
-                  DrawerItem("assets/icons/invitation.png", "Get free burgers"),
+                  DrawerItem(
+                      "assets/icons/invitation.png", "Get free burgers", 4),
                   SizedBox(
                     height: 30,
                   ),
-                  DrawerItem("assets/icons/placeholder.png", "Store locator"),
+                  DrawerItem(
+                      "assets/icons/placeholder.png", "Store locator", 5),
                   SizedBox(
                     height: 30,
                   ),
-                  DrawerItem("assets/icons/settings.png", "Settings"),
+                  DrawerItem("assets/icons/settings.png", "Settings", 6),
                 ],
               ),
             ),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class DeliveryTypeBottomSheet extends ViewModelWidget<DashboardViewModel> {
+  @override
+  Widget build(BuildContext context, DashboardViewModel viewModel) {
+    return Positioned(
+      top: 0.0,
+      bottom: 0.0,
+      right: 0.0,
+      left: 0.0,
+      child: Stack(
+        children: [
+          GestureDetector(
+            onTap: () => viewModel.closeBottomSheet(),
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              color: Colors.black26,
+            ),
+          ),
+          Positioned(
+            top: MediaQuery.of(context).size.height / 6,
+            bottom: 0.0,
+            right: 0.0,
+            left: 0.0,
+            child: Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                padding: EdgeInsets.only(left: 20, right: 20, top: 20),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10.0)),
+                child: ListView.builder(
+                  itemCount: 4,
+                  // ignore: missing_return
+                  itemBuilder: (ctx, index) {
+                    if (index == 0) {
+                      return GestureDetector(
+                        onTap: () => viewModel.changeDeliveryType(index),
+                        child: Container(
+                          padding: EdgeInsets.all(15),
+                          margin: EdgeInsets.only(bottom: 10, top: 10),
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: Colors.grey[400], width: 0.8),
+                              borderRadius: BorderRadius.circular(4)),
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Container(
+                                    width: 130,
+                                    height: 130,
+                                    color: Colors.blue[50],
+                                  ),
+                                  SizedBox(
+                                    width: 15,
+                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "Delivery",
+                                          style: TextStyle(
+                                              fontSize: 22,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.black),
+                                        ),
+                                        Text(
+                                          "Enjoy safe and contactless delivery to your doorstep with exciting offers!",
+                                          // maxLines: 4,
+                                          style: TextStyle(
+                                              fontSize: 19,
+                                              letterSpacing: 0.4,
+                                              fontWeight: FontWeight.normal,
+                                              color: Colors.black87),
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                "Get a FREE Mcaloo Tikki Burger or Chicken kebab Burger on order above Rs.299 .Use code -B299",
+                                // maxLines: 4,
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.normal,
+                                    color: Colors.black),
+                              )
+                            ],
+                          ),
+                        ),
+                      );
+                    } else if (index == 1) {
+                      return GestureDetector(
+                        onTap: () => viewModel.changeDeliveryType(index),
+                        child: Container(
+                          padding: EdgeInsets.all(15),
+                          margin: EdgeInsets.only(bottom: 10, top: 10),
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: Colors.grey[400], width: 0.8),
+                              borderRadius: BorderRadius.circular(4)),
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Container(
+                                    width: 130,
+                                    height: 130,
+                                    color: Colors.blue[50],
+                                  ),
+                                  SizedBox(
+                                    width: 15,
+                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "On The Go",
+                                          style: TextStyle(
+                                              fontSize: 22,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.black),
+                                        ),
+                                        Text(
+                                          "Delivered to your car at a pick-up point on your way", // maxLines: 4,
+                                          style: TextStyle(
+                                              fontSize: 19,
+                                              letterSpacing: 0.4,
+                                              fontWeight: FontWeight.normal,
+                                              color: Colors.black87),
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                "Get a FREE Mcaloo Tikki Burger or Chicken kebab Burger on order above Rs.599 .Use code -OTG17",
+                                // maxLines: 4,
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.normal,
+                                    color: Colors.black),
+                              )
+                            ],
+                          ),
+                        ),
+                      );
+                    } else if (index == 2) {
+                      return GestureDetector(
+                        onTap: () => viewModel.changeDeliveryType(index),
+                        child: Container(
+                          padding: EdgeInsets.all(15),
+                          margin: EdgeInsets.only(bottom: 10, top: 10),
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: Colors.grey[400], width: 0.8),
+                              borderRadius: BorderRadius.circular(4)),
+                          child: Row(
+                            children: [
+                              Container(
+                                width: 130,
+                                height: 130,
+                                color: Colors.blue[50],
+                              ),
+                              SizedBox(
+                                width: 15,
+                              ),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Takeout",
+                                      style: TextStyle(
+                                          fontSize: 22,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black),
+                                    ),
+                                    Text(
+                                      "Order and pick-up from one of our restaurants",
+                                      // maxLines: 4,
+                                      style: TextStyle(
+                                          fontSize: 19,
+                                          letterSpacing: 0.4,
+                                          fontWeight: FontWeight.normal,
+                                          color: Colors.black87),
+                                    )
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      );
+                    } else if (index == 3) {
+                      return GestureDetector(
+                        onTap: () => viewModel.changeDeliveryType(index),
+                        child: Container(
+                          padding: EdgeInsets.all(15),
+                          margin: EdgeInsets.only(bottom: 20, top: 10),
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: Colors.grey[400], width: 0.8),
+                              borderRadius: BorderRadius.circular(4)),
+                          child: Row(
+                            children: [
+                              Container(
+                                width: 130,
+                                height: 130,
+                                color: Colors.blue[50],
+                              ),
+                              SizedBox(
+                                width: 15,
+                              ),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Dine In",
+                                      style: TextStyle(
+                                          fontSize: 22,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black),
+                                    ),
+                                    Text(
+                                      "Order online and dine in the restaurant",
+                                      // maxLines: 4,
+                                      style: TextStyle(
+                                          fontSize: 19,
+                                          letterSpacing: 0.4,
+                                          fontWeight: FontWeight.normal,
+                                          color: Colors.black87),
+                                    )
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      );
+                    }
+                  },
+                )),
           )
         ],
       ),

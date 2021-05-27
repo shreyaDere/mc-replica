@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:mc_delivery/constants/colors/colors.dart';
 import 'package:mc_delivery/ui/View/menu/menu_view_model.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:stacked/stacked.dart';
 
 class MenuView extends StatelessWidget {
@@ -90,6 +89,7 @@ class AppBar extends ViewModelWidget<MenuViewModel> {
                     toggleSize: 20.0,
                     borderRadius: 30.0,
                     padding: 3.5,
+                    activeColor: COLOR_PRIMARY,
                     inactiveColor: Colors.grey[350],
                     value: viewModel.calorieToggle,
                     onToggle: (val) => viewModel.onCalorieToggel(val),
@@ -110,6 +110,7 @@ class AppBar extends ViewModelWidget<MenuViewModel> {
                     toggleSize: 20.0,
                     borderRadius: 30.0,
                     padding: 3.5,
+                    activeColor: COLOR_PRIMARY,
                     inactiveColor: Colors.grey[350],
                     value: viewModel.vegOnlyToggle,
                     onToggle: (val) => viewModel.onVegOnlyToggleToggel(val),
