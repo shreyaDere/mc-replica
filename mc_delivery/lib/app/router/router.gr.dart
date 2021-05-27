@@ -14,7 +14,6 @@ import '../../ui/View/Invite_share/invite_share_view.dart';
 import '../../ui/View/dashboard_view/dashboard_screen_view.dart';
 import '../../ui/View/menu/menu_view.dart';
 import '../../ui/View/offers/offer_view.dart';
-import '../../ui/View/search_location/search_location_view.dart';
 import '../../ui/View/search_view/search_screen_view.dart';
 import '../../ui/View/set_pick_up_point_view/set_pick_up_point_view.dart';
 import '../../ui/View/settings/settings_view.dart';
@@ -37,7 +36,6 @@ class Routes {
   static const String StoreLocationViewRoute = '/store-location-view';
   static const String StoreDetailsViewRoute = '/store-details-view';
   static const String SetPickUpViewRoute = '/set-pick-up-view';
-  static const String SearchLocationViewRoute = '/search-location-view';
   static const all = <String>{
     SplashScreenViewRoute,
     DashboardViewRoute,
@@ -51,7 +49,6 @@ class Routes {
     StoreLocationViewRoute,
     StoreDetailsViewRoute,
     SetPickUpViewRoute,
-    SearchLocationViewRoute,
   };
 }
 
@@ -71,7 +68,6 @@ class Router extends RouterBase {
     RouteDef(Routes.StoreLocationViewRoute, page: StoreLocationView),
     RouteDef(Routes.StoreDetailsViewRoute, page: StoreDetailsView),
     RouteDef(Routes.SetPickUpViewRoute, page: SetPickUpView),
-    RouteDef(Routes.SearchLocationViewRoute, page: SearchLocationView),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
@@ -151,12 +147,6 @@ class Router extends RouterBase {
     SetPickUpView: (data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => const SetPickUpView(),
-        settings: data,
-      );
-    },
-    SearchLocationView: (data) {
-      return MaterialPageRoute<dynamic>(
-        builder: (context) => const SearchLocationView(),
         settings: data,
       );
     },

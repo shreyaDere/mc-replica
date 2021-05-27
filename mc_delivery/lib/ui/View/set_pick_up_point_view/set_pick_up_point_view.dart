@@ -34,46 +34,46 @@ class SetPickUpView extends StatelessWidget {
               top: true,
               child: Column(
                 children: [
-                  // SizedBox(height: 10),
-                  // Padding(
-                  //   padding: EdgeInsets.only(left: 10, right: 10),
-                  //   child: Text(
-                  //     "We will kepp your order ready.Pick it up On The Go",
-                  //     style:
-                  //         TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
-                  //   ),
-                  // ),
-                  // Container(
-                  //   margin: EdgeInsets.only(top: 8),
-                  //   height: 0.6,
-                  //   color: Colors.grey,
-                  // ),
-                  // Container(
-                  //   height: 50,
-                  //   width: MediaQuery.of(context).size.width,
-                  //   decoration: BoxDecoration(
-                  //       color: Color(0xFFF3E5D4).withOpacity(0.4),
-                  //       border: Border(bottom: BorderSide(color: Colors.grey))),
-                  //   padding: EdgeInsets.only(left: 10, bottom: 10),
-                  //   child: Align(
-                  //     alignment: Alignment.bottomLeft,
-                  //     child: Text(
-                  //       "Find a McDonald's on your route",
-                  //       style: TextStyle(
-                  //           color: Colors.black38,
-                  //           fontWeight: FontWeight.w500,
-                  //           fontSize: 18),
-                  //     ),
-                  //   ),
-                  // ),
-                  // SizedBox(
-                  //   height: 10,
-                  // ),
-                  // LocationWidget(),
-                  // SizedBox(
-                  //   height: 20,
-                  // ),
+                  SizedBox(height: 10),
+                  Padding(
+                    padding: EdgeInsets.only(left: 10, right: 10),
+                    child: Text(
+                      "We will kepp your order ready.Pick it up On The Go",
+                      style:
+                          TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
+                    ),
+                  ),
                   Container(
+                    margin: EdgeInsets.only(top: 8),
+                    height: 0.6,
+                    color: Colors.grey,
+                  ),
+                  Container(
+                    height: 50,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                        color: Color(0xFFF3E5D4).withOpacity(0.4),
+                        border: Border(bottom: BorderSide(color: Colors.grey))),
+                    padding: EdgeInsets.only(left: 10, bottom: 10),
+                    child: Align(
+                      alignment: Alignment.bottomLeft,
+                      child: Text(
+                        "Find a McDonald's on your route",
+                        style: TextStyle(
+                            color: Colors.black38,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 18),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  LocationWidget(),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  /*   Container(
                       height: MediaQuery.of(context).size.height - 150,
                       width: MediaQuery.of(context).size.width,
                       child:
@@ -106,7 +106,7 @@ class SetPickUpView extends StatelessWidget {
                         onMapCreated: model.onMapCreated,
                         markers: Set<Marker>.of(model.markers.values),
                         polylines: Set<Polyline>.of(model.polylines.values),
-                      ))
+                      ))*/
                 ],
               ))),
     );
@@ -117,13 +117,11 @@ class LocationWidget extends ViewModelWidget<SetPickUpViewModel> {
   @override
   Widget build(BuildContext context, SetPickUpViewModel viewModel) {
     return Container(
-      // color: Colors.green,
       child: Row(
         children: [
           Container(
             width: 80,
             height: 150,
-            // color: Colors.blue[50],
             child: Column(
               children: [
                 SizedBox(

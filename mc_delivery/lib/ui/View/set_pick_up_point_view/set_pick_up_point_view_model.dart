@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geocoder/geocoder.dart';
@@ -107,9 +106,9 @@ class SetPickUpViewModel extends BaseViewModel {
     _navigationService.popRepeated(1);
   }
 
-  onStartingLocationSelected() {
-    _navigationService.navigateTo(Routes.SearchLocationViewRoute);
-  }
+  // onStartingLocationSelected() {
+  //   _navigationService.navigateTo(Routes.SearchLocationViewRoute);
+  // }
 
   // Future<Null> displayPrediction(var p) async {
   //   GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: googleAPiKey);
